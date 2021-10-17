@@ -1,2 +1,4 @@
 # MazeGame
- Small game
+ Smol maze game
+
+Not done yet
