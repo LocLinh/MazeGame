@@ -261,6 +261,9 @@ while True:             # Event Loop
         goal = 0
         Grade = {'Cau1': 0, 'Cau2': 0, 'Cau3': 0}
         current_visited_color = 0
+        Q_1 = True
+        Q_2 = True
+        Q_3 = True
     
     # print(event)
     xPos = int(math.ceil(_VARS['playerPos'][0]/cellSize))
