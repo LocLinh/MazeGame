@@ -7,7 +7,7 @@ git clone https://github.com/LocLinh/MazeGame
 or 
 code -> download zip
 
-Open file mazeGame.ext (can take up to 15s to open)
+Open file mazeGame.exe (can take up to 15s to open)
 
 
 Feel free to use or edit
