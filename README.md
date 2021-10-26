@@ -8,6 +8,7 @@ or
 code -> download zip
 
 Open file mazeGame.exe (can take up to 15s to open)
+
 Have fun
 
 Feel free to use or edit
