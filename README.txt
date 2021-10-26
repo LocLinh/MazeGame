@@ -1,0 +1,1 @@
+Chỉ chạy file MazeGame.exe

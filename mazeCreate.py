@@ -22,8 +22,8 @@ Ans = {'Cau1': 'không chọn', 'Cau2': 'không chọn', 'Cau3': 'không chọn'
 goal = 0
 visitedCells = {}
 bus_stations = [ (10, 15), (21, 7), (5, 21), (24, 19)]
-# light purple 0, light blue 1, light green 2, tomato 3, pink 4, yellow 5, skin 6, light grey 7
-visited_colors = ['#9D84B7', '#B2F9FC', '#77D970', '#ff6347', 'pink', '#FEE440', '#ECAC5D', '#D5D5D5']
+# light purple 0, light blue 1, light green 2, tomato 3, pink 4, yellow 5, skin 6, light grey 7, darkred 8, GreenYellow 9, dark green 10
+visited_colors = ['#9D84B7', '#B2F9FC', '#77D970', '#ff6347', 'pink', '#FEE440', '#ECAC5D', '#D5D5D5', '#6C4A4A', '#49FF00', '#1E5128']
 current_visited_color = 0
 root = tkinter.Tk()
 root.withdraw()
@@ -124,24 +124,27 @@ def checkEvents(event):
 huongdan = sg.Image(source='images/huongdan.png')
 interact_col = [
     [huongdan],
-    [sg.pin(sg.Text('Tìm đường đến đích nào!!', key='content_0', font=AppFont, pad=(0, (50, 20)), visible=True))],
+    [sg.Text('Nhập tên hoặc MSSV để bắt đầu:', key='input_req', font=AppFont, pad=(0, (50, 10)), visible=True)],
+    [sg.pin(sg.InputText(size=(43, 1), key='input_name', visible=True))],
+    [sg.pin(sg.Button('Bắt đầu', key='START',font=AppFont, pad=(5, (10, 10)), visible=True))],
+    [sg.pin(sg.Text('Tìm đường đến đích nào!!', key='content_0', font=AppFont, pad=(0, (20, 20)), visible=False))],
     [sg.pin(sg.Text('Bạn đang ở cơ sở TP. Thủ Đức\n\nBạn sẽ chọn chuyến xe nào để đi\n     đến cơ sở Nguyễn Kiệm?', key='content_1', font=AppFont, pad=(0, (50, 20)), visible=False))],
     [sg.pin(sg.Text('Bạn đang ở cơ sở Nguyễn Kiệm\n\nBạn sẽ chọn chuyến xe nào để đi\n     đến cơ sở 2C Phổ Quang?', key='content_2', font=AppFont, pad=(0, (50, 20)), visible=False))],
     [sg.pin(sg.Text('Bạn đang ở cơ sở 2C Phổ Quang\n\nBạn sẽ chọn chuyến xe nào để đi\n             đến cơ sở Q7?', key='content_3', font=AppFont, pad=(0, (50, 20)), visible=False))],
     [sg.pin(sg.Text('Bạn đang ở cơ sở Quận 7\n\n Sắp tới đích rồi!!', key='content_4', font=AppFont, pad=(0, (50, 20)), visible=False))],
-    [sg.pin(sg.Text('Chúc mừng bạn đạt %s điểm!!\nĐáp án câu 1 là A, bạn %s\nĐáp án câu 2 là A, bạn %s\nĐáp án câu 3 là A, bạn %s' % (goal, Ans['Cau1'], Ans['Cau2'], Ans['Cau3']), key='content_5', font=AppFont, pad=(0, (50, 20)), visible=False))],
+    [sg.pin(sg.Text('Chúc mừng bạn đạt %s điểm!!', key='content_5', font=AppFont, pad=(0, (50, 20)), visible=False))],
     [
-        sg.pin(sg.Button(button_text='A. Xe 55', key='button_1_A', button_color='red', pad=((20, 20), 0), visible=False)),
+        sg.pin(sg.Button(button_text='A. Xe 150', key='button_1_A', button_color='red', pad=((20, 20), 0), visible=False)),
         sg.pin(sg.Button(button_text='B. Xe 99' , key='button_1_B', button_color= ('black', 'pink'), pad=(20, 0), visible=False)), 
-        sg.pin(sg.Button(button_text='C. Xe 150', key='button_1_C', button_color='green', pad=((20, 0), 0), visible=False))
+        sg.pin(sg.Button(button_text='C. Xe 55', key='button_1_C', button_color='green', pad=((20, 0), 0), visible=False))
     ],
     [
         sg.pin(sg.Button(button_text='A. Xe 07', key = 'button_2_A', button_color=('black', 'yellow'), pad=((22, 20), 0), visible=False)),
         sg.pin(sg.Button(button_text='B. Xe 55' , key='button_2_B', button_color= 'red', pad=(20, 0), visible=False)), 
         sg.pin(sg.Button(button_text='C. Xe 150', key='button_2_C', button_color='green', pad=((20, 0), 0), visible=False))
     ],
-    [sg.pin(sg.Button(button_text='A. Xe 152 rồi chuyển qua xe 34', key='button_3_A', button_color='tomato', visible=False))],
-    [sg.pin(sg.Button(button_text='B. Xe 104 rồi chuyển qua xe 34' , key='button_3_B', button_color='black', visible=False))],
+    [sg.pin(sg.Button(button_text='A. Xe 104 rồi chuyển qua xe 34', key='button_3_A', button_color='tomato', visible=False))],
+    [sg.pin(sg.Button(button_text='B. Xe 152 rồi chuyển qua xe 34' , key='button_3_B', button_color='black', visible=False))],
     [sg.pin(sg.Button(button_text='C. Xe 34 rồi chuyển qua xe 20', key='button_3_C',button_color='green', visible=False))],
 ]
 
@@ -203,16 +206,16 @@ def check_answer(content = 1, answer = ''):
     # print(content, answer)
     if content == 1:
         if event == 'button_1_A':
-            Grade['Cau1'] = 1
-            Ans['Cau1'] = 'chọn đúng'
+            Grade['Cau1'] = 0
+            Ans['Cau1'] = 'chọn A'
             return 3
         elif event == 'button_1_B':
             Grade['Cau1'] = 0
             Ans['Cau1'] = 'chọn B'
             return 4
         elif event == 'button_1_C':
-            Grade['Cau1'] = 0
-            Ans['Cau1'] = 'chọn C'
+            Grade['Cau1'] = 1
+            Ans['Cau1'] = 'chọn đúng'
             return 2
     elif content == 2:
         if event == 'button_2_A':
@@ -222,40 +225,55 @@ def check_answer(content = 1, answer = ''):
         elif event == 'button_2_B':
             Grade['Cau2'] = 0
             Ans['Cau2'] = 'chọn B'
-            return 3
+            return 8
         elif event == 'button_2_C':
             Grade['Cau2'] = 0
             Ans['Cau2'] = 'chọn C'
-            return 2
+            return 9
     elif content == 3:
         if event == 'button_3_A':
-            Grade['Cau3'] = 1
-            Ans['Cau3'] = 'chọn đúng'
+            Grade['Cau3'] = 0
+            Ans['Cau3'] = 'chọn A'
             return 6
         elif event == 'button_3_B':
-            Grade['Cau3'] = 0
-            Ans['Cau3'] = 'chọn B'
+            Grade['Cau3'] = 1
+            Ans['Cau3'] = 'chọn đúng'
             return 7
         elif event == 'button_3_C':
             Grade['Cau3'] = 0
             Ans['Cau3'] = 'chọn C'
-            return 2
+            return 10
     return False
 
 # alow answer question flag
 Q_1 = True
 Q_2 = True
 Q_3 = True
+allow_move = False
 
 Draw()
 draw_Object(_VARS['playerPos'][0], _VARS['playerPos'][1], bus_l)
+
 
 while True:             # Event Loop
     event, values = _VARS['window'].read()
     if event in (None, 'Exit'):
         break
+    
+    if event == 'START':
+        if values['input_name'] == '':
+            _VARS['window']['input_req'].update('Xin chào: Vô danh')
+        else:
+            _VARS['window']['input_req'].update('Xin chào: \n%s' % values['input_name'])
+        _VARS['window']['input_name'].update(visible=False)
+        _VARS['window']['START'].update(visible=False)
+        allow_move = True
 
     if event == 'Restart':
+        _VARS['window']['input_req'].update('Nhập tên hoặc MSSV để bắt đầu:')
+        _VARS['window']['input_name'].update(visible=True)
+        _VARS['window']['content_0'].update(visible=False)
+        _VARS['window']['START'].update(visible=True)
         _VARS['playerPos'] = [20, 20]
         visitedCells = {}
         goal = 0
@@ -264,93 +282,107 @@ while True:             # Event Loop
         Q_1 = True
         Q_2 = True
         Q_3 = True
+        allow_move = False
+        _VARS['canvas'].TKCanvas.delete("all")
+        Draw()
+        draw_player_direction(_VARS['playerPos'][0], _VARS['playerPos'][1], event)
     
-    # print(event)
     xPos = int(math.ceil(_VARS['playerPos'][0]/cellSize))
     yPos = int(math.ceil(_VARS['playerPos'][1]/cellSize))
 
-    '''
-        Check event move
-    '''
-    # check if player is answer any question
-    # if true then dont alow player to move
-    move_alow = Q_1 and Q_2 and Q_3
+    if allow_move:
+        '''
+            Check event move
+        '''
+        # check if player is answer any question
+        # if true then dont alow player to move
+        move_alow = Q_1 and Q_2 and Q_3
 
-    if checkEvents(event) == 'Up':
-        if int(_VARS['playerPos'][1] - cellSize) >= 0:
-            if _VARS['cellMAP'][yPos-1][xPos] != 1 and move_alow:
-                _VARS['playerPos'][1] = _VARS['playerPos'][1] - cellSize
-    elif checkEvents(event) == 'Down':
-        if int(_VARS['playerPos'][1] + cellSize) < _VARS['gridSize']-1:
-            if _VARS['cellMAP'][yPos+1][xPos] != 1 and move_alow:
-                _VARS['playerPos'][1] = _VARS['playerPos'][1] + cellSize
-    elif checkEvents(event) == 'Left':
-        if int(_VARS['playerPos'][0] - cellSize) >= 0:
-            if _VARS['cellMAP'][yPos][xPos-1] != 1 and move_alow:
-                _VARS['playerPos'][0] = _VARS['playerPos'][0] - cellSize
-    elif checkEvents(event) == 'Right':
-        if int(_VARS['playerPos'][0] + cellSize) < _VARS['gridSize']-1:
-            if _VARS['cellMAP'][yPos][xPos+1] != 1 and move_alow:
-                _VARS['playerPos'][0] = _VARS['playerPos'][0] + cellSize
+        if checkEvents(event) == 'Up':
+            if int(_VARS['playerPos'][1] - cellSize) >= 0:
+                if _VARS['cellMAP'][yPos-1][xPos] != 1 and move_alow:
+                    _VARS['playerPos'][1] = _VARS['playerPos'][1] - cellSize
+        elif checkEvents(event) == 'Down':
+            if int(_VARS['playerPos'][1] + cellSize) < _VARS['gridSize']-1:
+                if _VARS['cellMAP'][yPos+1][xPos] != 1 and move_alow:
+                    _VARS['playerPos'][1] = _VARS['playerPos'][1] + cellSize
+        elif checkEvents(event) == 'Left':
+            if int(_VARS['playerPos'][0] - cellSize) >= 0:
+                if _VARS['cellMAP'][yPos][xPos-1] != 1 and move_alow:
+                    _VARS['playerPos'][0] = _VARS['playerPos'][0] - cellSize
+        elif checkEvents(event) == 'Right':
+            if int(_VARS['playerPos'][0] + cellSize) < _VARS['gridSize']-1:
+                if _VARS['cellMAP'][yPos][xPos+1] != 1 and move_alow:
+                    _VARS['playerPos'][0] = _VARS['playerPos'][0] + cellSize
 
-    # save visited cells
-    visitedCells[(xPos, yPos)] = current_visited_color
+        # save visited cells
+        visitedCells[(xPos, yPos)] = current_visited_color
 
-    # Clear canvas, draw grid and cells and visited cell
-    _VARS['canvas'].TKCanvas.delete("all")
-    Draw()
-    draw_player_direction(_VARS['playerPos'][0], _VARS['playerPos'][1], event)
-    
-    # recalculate player position
-    yPos = int(math.ceil(_VARS['playerPos'][1]/cellSize))
-    xPos = int(math.ceil(_VARS['playerPos'][0]/cellSize))
+        # Clear canvas, draw grid and cells and visited cell
+        _VARS['canvas'].TKCanvas.delete("all")
+        Draw()
+        draw_player_direction(_VARS['playerPos'][0], _VARS['playerPos'][1], event)
+        
+        # recalculate player position
+        yPos = int(math.ceil(_VARS['playerPos'][1]/cellSize))
+        xPos = int(math.ceil(_VARS['playerPos'][0]/cellSize))
 
-    '''
-        Answer question
-    '''
-    if (xPos, yPos) == bus_stations[0]:
-        if Q_1:
-            Update_content(1)
-            Q_1 = False
-        if _VARS['window']['content_1'].visible == True:
-            if check_answer(1, event):
-                current_visited_color = check_answer(1, event)
-                Update_content(0)
-                Q_1 = True
-    elif (xPos, yPos) == bus_stations[1]:
-        if Q_2:
-            Update_content(2)
-            Q_2 = False
-        if _VARS['window']['content_2'].visible == True:
-            if check_answer(2, event):
-                current_visited_color = check_answer(2, event)
-                Update_content(0)
-                Q_2 = True
-    elif (xPos, yPos) == bus_stations[2]:
-        if Q_3:
-            Update_content(3)
-            Q_3 = False
-        if _VARS['window']['content_3'].visible == True:
-            if check_answer(3, event):
-                current_visited_color = check_answer(3, event)
-                Update_content(0)
-                Q_3 = True
-    elif (xPos, yPos) == bus_stations[3]:
-        Update_content(4)
-    else:
-        Update_content(0)
+        '''
+            Answer question
+        '''
+        if (xPos, yPos) == bus_stations[0]:
+            if Q_1:
+                Update_content(1)
+                Q_1 = False
+            if _VARS['window']['content_1'].visible == True:
+                if check_answer(1, event):
+                    current_visited_color = check_answer(1, event)
+                    Update_content(0)
+                    Q_1 = True
+        elif (xPos, yPos) == bus_stations[1]:
+            if Q_2:
+                Update_content(2)
+                Q_2 = False
+            if _VARS['window']['content_2'].visible == True:
+                if check_answer(2, event):
+                    current_visited_color = check_answer(2, event)
+                    Update_content(0)
+                    Q_2 = True
+        elif (xPos, yPos) == bus_stations[2]:
+            if Q_3:
+                Update_content(3)
+                Q_3 = False
+            if _VARS['window']['content_3'].visible == True:
+                if check_answer(3, event):
+                    current_visited_color = check_answer(3, event)
+                    Update_content(0)
+                    Q_3 = True
+        elif (xPos, yPos) == bus_stations[3]:
+            Update_content(4)
+        else:
+            Update_content(0)
 
 
-    # Check for Exit:
-    if [xPos, yPos] == exitPos:
-        _VARS['window']['-exit-'].update('Found the exit !')
-        Grd = 0
-        for item in Grade:
-            Grd += Grade[item]
-        goal = Grd
-        Update_content(5)
-        _VARS['window']['content_5'].update('Chúc mừng bạn đạt %s điểm!!\nĐáp án câu 1 là A, bạn %s\nĐáp án câu 2 là A, bạn %s\nĐáp án câu 3 là A, bạn %s' % (goal, Ans['Cau1'], Ans['Cau2'], Ans['Cau3']))
-    else:
-        _VARS['window']['-exit-'].update('')
+        # Check for Exit:
+        if [xPos, yPos] == exitPos:
+            _VARS['window']['-exit-'].update('Found the exit !')
+            Grd = 0
+            for item in Grade:
+                Grd += Grade[item]
+            goal = Grd
+            Update_content(5)
+            if goal == 0:
+                _VARS['window']['content_5'].update('\t%s điểm!!\nAi rồi cũng phải ăn trứng thôi^^' % goal)
+            elif goal == 1:
+                _VARS['window']['content_5'].update('\t%s điểm!!\n  Chúc bạn may mắn lần sau' % goal)
+            elif goal == 2:
+                _VARS['window']['content_5'].update('Bạn được %s điểm!\nGần đúng hết rồi' % goal)
+            elif goal == 3:
+                _VARS['window']['content_5'].update('Bạn được %s điểm! Xuất sắc!' % goal)
+            else:
+                _VARS['window']['content_5'].update('Chắc chắn là gian lận rồi')
+
+        else:
+            _VARS['window']['-exit-'].update('')
 
 _VARS['window'].close()
