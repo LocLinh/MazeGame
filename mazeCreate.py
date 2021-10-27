@@ -121,10 +121,10 @@ def checkEvents(event):
 
 
 # INIT :
-huongdan = sg.Image(source='images/huongdan.png')
+huongdan = sg.Image(source='images/huongdan_updated.png')
 interact_col = [
     [huongdan],
-    [sg.Text('Nhập tên hoặc MSSV để bắt đầu:', key='input_req', font=AppFont, pad=(0, (50, 10)), visible=True)],
+    [sg.Text('Nhập MSSV để bắt đầu:', key='input_req', font=AppFont, pad=(0, (50, 10)), visible=True)],
     [sg.pin(sg.InputText(size=(43, 1), key='input_name', visible=True))],
     [sg.pin(sg.Button('Bắt đầu', key='START',font=AppFont, pad=(5, (10, 10)), visible=True))],
     [sg.pin(sg.Text('Tìm đường đến đích nào!!', key='content_0', font=AppFont, pad=(0, (20, 20)), visible=False))],
@@ -156,7 +156,7 @@ main_game_col = [
 ]
 layout = [
     [sg.Column(main_game_col),
-    sg.Column(interact_col, key='content', vertical_alignment='t', size=(330, 500))]
+    sg.Column(interact_col, key='content', vertical_alignment='t', size=(330, 700))]
 ]
 
 _VARS['window'] = sg.Window('Maze Game', layout, resizable=False, finalize=True,
