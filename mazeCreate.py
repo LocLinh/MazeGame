@@ -1,14 +1,9 @@
 from logging import root
-from sys import flags
-import textwrap
 from tkinter import *
 import tkinter
 import PySimpleGUI as sg
-import numpy as np
 import math
 from PIL import Image, ImageTk
-
-from numpy.core.fromnumeric import size
 import mazeGenerator as Maze
 # constant
 AppFont = 'Any 16'
@@ -127,11 +122,11 @@ interact_col = [
     [sg.Text('Nhập MSSV để bắt đầu:', key='input_req', font=AppFont, pad=(0, (50, 10)), visible=True)],
     [sg.pin(sg.InputText(size=(43, 1), key='input_name', visible=True))],
     [sg.pin(sg.Button('Bắt đầu', key='START',font=AppFont, pad=(5, (10, 10)), visible=True))],
-    [sg.pin(sg.Text('Tìm đường đến đích nào!!', key='content_0', font=AppFont, pad=(0, (20, 20)), visible=False))],
+    [sg.pin(sg.Text('Tìm đường đến cơ sở TP.Thủ Đức', key='content_0', font=AppFont, pad=(0, (20, 20)), visible=False))],
     [sg.pin(sg.Text('Bạn đang ở cơ sở TP. Thủ Đức\n\nBạn sẽ chọn chuyến xe nào để đi\n     đến cơ sở Nguyễn Kiệm?', key='content_1', font=AppFont, pad=(0, (50, 20)), visible=False))],
     [sg.pin(sg.Text('Bạn đang ở cơ sở Nguyễn Kiệm\n\nBạn sẽ chọn chuyến xe nào để đi\n     đến cơ sở 2C Phổ Quang?', key='content_2', font=AppFont, pad=(0, (50, 20)), visible=False))],
     [sg.pin(sg.Text('Bạn đang ở cơ sở 2C Phổ Quang\n\nBạn sẽ chọn chuyến xe nào để đi\n             đến cơ sở Q7?', key='content_3', font=AppFont, pad=(0, (50, 20)), visible=False))],
-    [sg.pin(sg.Text('Bạn đang ở cơ sở Quận 7\n\n Sắp tới đích rồi!!', key='content_4', font=AppFont, pad=(0, (50, 20)), visible=False))],
+    [sg.pin(sg.Text('Bạn đang ở cơ sở Quận 7\n\n Tìm đường tới đích nha!!', key='content_4', font=AppFont, pad=(0, (50, 20)), visible=False))],
     [sg.pin(sg.Text('Chúc mừng bạn đạt %s điểm!!', key='content_5', font=AppFont, pad=(0, (50, 20)), visible=False))],
     [
         sg.pin(sg.Button(button_text='A. Xe 150', key='button_1_A', button_color='red', pad=((20, 20), 0), visible=False)),
@@ -331,6 +326,7 @@ while True:             # Event Loop
             Answer question
         '''
         if (xPos, yPos) == bus_stations[0]:
+            _VARS['window']['content_0'].update('')
             if Q_1:
                 Update_content(1)
                 Q_1 = False
@@ -340,6 +336,7 @@ while True:             # Event Loop
                     Update_content(0)
                     Q_1 = True
         elif (xPos, yPos) == bus_stations[1]:
+            _VARS['window']['content_0'].update('')
             if Q_2:
                 Update_content(2)
                 Q_2 = False
@@ -349,6 +346,7 @@ while True:             # Event Loop
                     Update_content(0)
                     Q_2 = True
         elif (xPos, yPos) == bus_stations[2]:
+            _VARS['window']['content_0'].update('')
             if Q_3:
                 Update_content(3)
                 Q_3 = False
